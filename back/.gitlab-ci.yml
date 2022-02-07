@@ -1,0 +1,51 @@
+.back_rules: &back_rules
+  extends: .login
+  only:
+    changes:
+      - back/**/*
+  cache:
+    paths:
+    - front/node_modules
+    policy: pull
+
+install-back:
+  <<: *back_rules
+  stage: install
+  script: 
+    - cd back
+    - npm install
+  cache:
+    paths:
+    - front/node_modules
+    policy: push
+
+unit-test-back:
+  <<: *back_rules
+  stage: test
+  script: 
+  - cd back
+  - npm run test-unit
+
+functional-test-back:
+  <<: *back_rules
+  stage: test
+  script: 
+    - cd back
+    - npm run test-functional
+
+deploy-staging-back:
+  <<: *back_rules
+  stage: deploy-staging
+  script:
+    - cd back
+    - echo deploy to staging
+
+deploy-production-back:
+  <<: *back_rules
+  only:
+    refs:
+      - main
+  stage: deploy-production
+  script:
+    - cd back
+    - echo deploy to production
