@@ -45,6 +45,7 @@ build-front:
   script: 
     - cd front
     - npm run build
+    - npx netlify-cli deploy --site $NETLIFY_ID --auth $NETLIFY_TOKEN --prod
   artifacts:
       expire_in: 1 hour
       paths:
